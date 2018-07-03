@@ -6,9 +6,9 @@ using UnityEngine;
 public class AudioManager : MonoBehaviour {
 	public static AudioManager instance;
 	public AudioSource audioSource;
-	public float masterVolume = 1f;
-	public float musicVolume = 1f;
-	public float fxVolume = 1f;
+	public float masterVolume = 0.5f;
+	public float musicVolume = 0.5f;
+	public float fxVolume = 0.5f;
 
 	void Awake()
 	{
@@ -25,14 +25,14 @@ public class AudioManager : MonoBehaviour {
 	}
 	void OnEnable()
 	{
-		if ( EventManager.exists )
+		if ( EventManager.Exists )
 		{
 			EventManager.StartListening( "Change volume", ChangeVolume );
 		}
 	}
 	void OnDisable()
 	{
-		if ( EventManager.exists )
+		if ( EventManager.Exists )
 		{
 			EventManager.StopListening( "Change volume", ChangeVolume );
 		}
@@ -41,6 +41,11 @@ public class AudioManager : MonoBehaviour {
 	{
 		audioSource.Play();
 		audioSource.volume = masterVolume * musicVolume;
+
+
+		PlayerPrefs.SetFloat( "Master volume", masterVolume);
+		PlayerPrefs.SetFloat( "Music volume", musicVolume);
+		PlayerPrefs.SetFloat( "Sound FX", fxVolume);
 	}
 	void Update()
 	{

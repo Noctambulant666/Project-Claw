@@ -14,7 +14,7 @@ public class UIControl : MonoBehaviour {
 	}
 	void OnDisable()
 	{
-		if ( EventManager.exists )
+		if ( EventManager.Exists )
 		{
 			EventManager.StopListening( "End Level", LevelComplete );
 		}

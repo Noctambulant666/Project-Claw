@@ -5,15 +5,22 @@ using UnityEngine.Events;
 
 public class EventManager : MonoBehaviour {
 	static EventManager instance;
-	public static bool exists = false;
 	public static Dictionary<string, UnityEvent> eventDictionary;
 
+	public static bool Exists
+	{
+		get{
+			if ( instance != null )
+				return true;
+			else
+				return false;
+		}
+	}
 	void Awake()
 	{
 		if ( instance == null )
 		{
 			instance = this;
-			exists = true;
 		}
 		else
 		{

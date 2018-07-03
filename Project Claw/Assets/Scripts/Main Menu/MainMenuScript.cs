@@ -16,12 +16,19 @@ public class MainMenuScript : MonoBehaviour {
 	}
 	public void StartGame()
 	{
-		SceneManager.LoadScene( "Level 1");
+//		SceneManager.LoadScene( "Level 1");
+		StartCoroutine( Starting() );
 	}
 	public void SwitchPanel( GameObject nextPanel )
 	{
 		currentPanel.SetActive(false);
 		nextPanel.SetActive(true);
 		currentPanel = nextPanel;
+	}
+	IEnumerator Starting()
+	{
+		EventManager.TriggerEvent( "Fade out");
+		yield return new WaitForSeconds(1f);
+		SceneManager.LoadScene("Level 1");
 	}
 }

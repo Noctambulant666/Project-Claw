@@ -13,9 +13,35 @@ public class VolumeSlider : MonoBehaviour {
 			ChangeVolume();
 		} );
 	}
+	void OnEnable()
+	{
+		if ( EventManager.Exists )
+		{
+			EventManager.StartListening( "Volume slider", SetSlider );
+		}
+	}
+	void OnDisable()
+	{
+		if ( EventManager.Exists )
+		{
+			EventManager.StopListening( "Volume slider", SetSlider );
+		}
+	}
+	void Start()
+	{
+		SetSlider();
+	}
 	void ChangeVolume()
 	{
 		PlayerPrefs.SetFloat( volumeKey, slider.value );
 		EventManager.TriggerEvent( "Change volume");
+	}
+	void SetSlider()
+	{
+		Debug.Log("Slider");
+		if ( PlayerPrefs.HasKey( volumeKey ) )
+		{
+			slider.value = PlayerPrefs.GetFloat( volumeKey );
+		}
 	}
 }

@@ -11,6 +11,7 @@ public class Player2 : MonoBehaviour {
 	[SerializeField] float jump = 3f;
 	[SerializeField] float gravity = 10f;
 	Vector3 move;
+	bool hasControl = false;
 //	bool canJump = true;
 
 	void Awake()
@@ -18,8 +19,23 @@ public class Player2 : MonoBehaviour {
 //		rb = gameObject.GetComponent<Rigidbody>();
 		controller = gameObject.GetComponent<CharacterController>();
 	}
+	void OnEnable()
+	{
+		if ( EventManager.Exists )
+		{
+			EventManager.StartListening( "Has Control", HasControl );
+		}
+	}
+	void OnDisable()
+	{
+		if ( EventManager.Exists )
+		{
+			EventManager.StopListening( "Has Control", HasControl );
+		}
+	}
 	void Update(){
 		controller.Move( move * Time.deltaTime);
+		if ( !hasControl ) return; // check if controls are enabled
 
 		if ( controller.isGrounded )
 		{
@@ -57,5 +73,10 @@ public class Player2 : MonoBehaviour {
 		{
 			EventManager.TriggerEvent("Check Point");
 		}
+	}
+	void HasControl()
+	{
+		hasControl = !hasControl;
+		move = Vector3.zero;
 	}
 }

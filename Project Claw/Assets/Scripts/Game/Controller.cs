@@ -23,7 +23,7 @@ public class Controller : MonoBehaviour {
 	}
 	void OnEnable()
 	{
-		if ( EventManager.exists )
+		if ( EventManager.Exists )
 		{
 			EventManager.StartListening( "Pit", Restart );
 			EventManager.StartListening( "Check Point", LevelComplete );
@@ -34,6 +34,19 @@ public class Controller : MonoBehaviour {
 		if ( playerPrefab != null )
 			Instantiate( playerPrefab, checkPoints[0].transform.position, checkPoints[0].transform.rotation );
 		GameStatus.instance.level = SceneManager.GetActiveScene().name;
+
+		if ( EventManager.Exists) 
+		{
+			// Intro sequence
+			StartCoroutine( Intro() );
+		}
+	}
+	IEnumerator Intro()
+	{
+		// Intro sequence
+		EventManager.TriggerEvent("Fade in");
+		yield return new WaitForSeconds( 0.9f );
+		EventManager.TriggerEvent( "Has Control");
 	}
 	void Update()
 	{
@@ -61,10 +74,13 @@ public class Controller : MonoBehaviour {
 		{
 			Destroy( GameObject.FindWithTag("Player") );
 			Instantiate( playerPrefab, checkPoints[0].transform.position, checkPoints[0].transform.rotation );
+//			EventManager.TriggerEvent("Has Control");
+			StartCoroutine( Intro() );
 		}
 	}
 	void LevelComplete()
 	{
+		EventManager.TriggerEvent( "Has Control" );
 		EventManager.TriggerEvent( "End Level" );
 	}
 }
