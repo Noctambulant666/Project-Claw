@@ -6,6 +6,11 @@ using UnityEngine.UI;
 
 public class MainMenuScript : MonoBehaviour {
 	public GameObject currentPanel = null;
+
+	void Start()
+	{
+		AudioManager.instance.Play( "Theme", false );
+	}
 	public void Exit()
 	{
 		#if UNITY_EDITOR

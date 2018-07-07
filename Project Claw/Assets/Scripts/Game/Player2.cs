@@ -4,7 +4,6 @@ using UnityEngine;
 
 //[CharacterController( typeof(CharacterController))]
 public class Player2 : MonoBehaviour {
-//	Rigidbody rb;
 	CharacterController controller;
 	[SerializeField] float moveSpeed = 2f;
 	[SerializeField] float rotSpeed = 375f;
@@ -12,11 +11,9 @@ public class Player2 : MonoBehaviour {
 	[SerializeField] float gravity = 10f;
 	Vector3 move;
 	bool hasControl = false;
-//	bool canJump = true;
 
 	void Awake()
 	{
-//		rb = gameObject.GetComponent<Rigidbody>();
 		controller = gameObject.GetComponent<CharacterController>();
 	}
 	void OnEnable()
@@ -34,13 +31,18 @@ public class Player2 : MonoBehaviour {
 		}
 	}
 	void Update(){
+		ControlSchemeA();
+	}
+	void ControlSchemeA()
+	{
+
 		controller.Move( move * Time.deltaTime);
 		if ( !hasControl ) return; // check if controls are enabled
 
 		if ( controller.isGrounded )
 		{
 			move.y = -gravity * Time.deltaTime;
-//			move.y = -controller.stepOffset / Time.deltaTime;
+			//			move.y = -controller.stepOffset / Time.deltaTime;
 
 			transform.Rotate( 0, Input.GetAxis("Horizontal")*rotSpeed *Time.deltaTime,0 );
 
@@ -49,9 +51,7 @@ public class Player2 : MonoBehaviour {
 			move *= moveSpeed;
 
 			if (Input.GetButton("Jump"))
-//			if ( canJump )
 			{
-				Debug.Log("Jump");
 				move.y = jump;
 			}
 		}
@@ -59,9 +59,38 @@ public class Player2 : MonoBehaviour {
 		{
 			move.y -= gravity * Time.deltaTime;
 		}
-//		move.y -= gravity * Time.deltaTime;
+	}
+	void ControlSchemeB()
+	{
+		controller.Move( move * Time.deltaTime);
+		if ( !hasControl ) return; // check if controls are enabled
 
-//		controller.Move( move * Time.deltaTime);
+		if ( controller.isGrounded )
+		{
+			move.y = -gravity * Time.deltaTime;
+
+			KeyCode keyUp = KeyCode.W;
+			KeyCode keyDown = KeyCode.S;
+			KeyCode keyLeft = KeyCode.A;
+			KeyCode keyRight = KeyCode.D;
+
+//			if ( keyUp )
+//			{
+//				
+//			}
+
+			move = transform.TransformDirection( move );
+			move *= moveSpeed;
+
+			if (Input.GetButton("Jump"))
+			{
+				move.y = jump;
+			}
+		}
+		else
+		{
+			move.y -= gravity * Time.deltaTime;
+		}
 	}
 	void OnTriggerEnter( Collider other )
 	{

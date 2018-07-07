@@ -57,7 +57,6 @@ GameObject:
   - component: {fileID: 4238819525639200}
   - component: {fileID: 33778191680378382}
   - component: {fileID: 65834744855395564}
-  - component: {fileID: 114574267449346846}
   m_Layer: 0
   m_Name: Floor
   m_TagString: Pit
@@ -903,14 +902,3 @@ BoxCollider:
   serializedVersion: 2
   m_Size: {x: 1, y: 1, z: 1}
   m_Center: {x: 0, y: 0, z: 0}
---- !u!114 &114574267449346846
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1195380197073524}
-  m_Enabled: 0
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f95a40527af684f4190f9aac645c824a, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 

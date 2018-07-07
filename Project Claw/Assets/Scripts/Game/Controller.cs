@@ -26,7 +26,17 @@ public class Controller : MonoBehaviour {
 		if ( EventManager.Exists )
 		{
 			EventManager.StartListening( "Pit", Restart );
+			EventManager.StartListening( "Restart", Restart );
 			EventManager.StartListening( "Check Point", LevelComplete );
+		}
+	}
+	void OnDisable()
+	{
+		if ( EventManager.Exists )
+		{
+			EventManager.StopListening( "Pit", Restart );
+			EventManager.StopListening( "Restart", Restart );
+			EventManager.StopListening( "Check Point", LevelComplete );
 		}
 	}
 	void Start()
@@ -47,6 +57,7 @@ public class Controller : MonoBehaviour {
 		EventManager.TriggerEvent("Fade in");
 		yield return new WaitForSeconds( 0.9f );
 		EventManager.TriggerEvent( "Has Control");
+		if ( AudioManager.instance != null ) AudioManager.instance.Play( "Theme", true );
 	}
 	void Update()
 	{
@@ -67,6 +78,10 @@ public class Controller : MonoBehaviour {
 		{
 			SceneManager.LoadScene(nextLevel);
 		}
+		else
+		{
+			WinGame();
+		}
 	}
 	void Restart()
 	{
@@ -76,11 +91,31 @@ public class Controller : MonoBehaviour {
 			Instantiate( playerPrefab, checkPoints[0].transform.position, checkPoints[0].transform.rotation );
 //			EventManager.TriggerEvent("Has Control");
 			StartCoroutine( Intro() );
+			if ( AudioManager.instance != null ) AudioManager.instance.Play( "Pit" );
 		}
 	}
 	void LevelComplete()
 	{
 		EventManager.TriggerEvent( "Has Control" );
-		EventManager.TriggerEvent( "End Level" );
+		if ( nextLevel == "" || nextLevel == null )
+		{
+			Debug.Log( "Win?");
+			WinGame();
+		}
+		else
+		{
+//			EventManager.TriggerEvent( "Has Control" );
+			EventManager.TriggerEvent( "End Level" );
+			if ( AudioManager.instance != null ) AudioManager.instance.Play( "End Level" );
+		}
+	}
+	void WinGame()
+	{
+		if ( AudioManager.instance != null )
+		{
+			AudioManager.instance.Pause( "Theme" );
+			AudioManager.instance.Play( "Win game" );
+		}
+		if ( EventManager.Exists ) EventManager.TriggerEvent( "Win Game" );
 	}
 }

@@ -1,15 +1,20 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class UIControl : MonoBehaviour {
 	public GameObject menu;
+	public GameObject levelOverPanel;
+	public GameObject winGamePanel;
+	public GameObject optionsPanel;
 
 	void OnEnable()
 	{
 		if ( GameObject.Find("Event Manager") != null )
 		{
 			EventManager.StartListening( "End Level", LevelComplete );
+			EventManager.StartListening( "Win Game", WinGame );
 		}
 	}
 	void OnDisable()
@@ -17,11 +22,17 @@ public class UIControl : MonoBehaviour {
 		if ( EventManager.Exists )
 		{
 			EventManager.StopListening( "End Level", LevelComplete );
+			EventManager.StartListening( "Win Game", WinGame );
 		}
 	}
 	public void Menu()
 	{
 		menu.SetActive( !menu.activeSelf );
+		optionsPanel.SetActive( false );
+	}
+	public void Options()
+	{
+		optionsPanel.SetActive( !optionsPanel.activeSelf );
 	}
 	public void NextLevelButton()
 	{
@@ -50,6 +61,27 @@ public class UIControl : MonoBehaviour {
 	void LevelComplete()
 	{
 		Debug.Log( "Level over");
-		NextLevelButton();
+//		NextLevelButton();
+		if ( levelOverPanel == null )
+		{
+			Debug.LogError( "UI Error: Level Over Panel is missing reference");
+			return;
+		}
+		levelOverPanel.SetActive(true);
+	}
+	void WinGame()
+	{
+		Debug.Log( "Game over");
+		if ( winGamePanel == null ){
+			Debug.LogError( "UI Error: Win Game Panel is missing reference");
+			return;
+		}
+		winGamePanel.SetActive(true);
+	}
+	public void Retry()
+	{
+		levelOverPanel.SetActive(false);
+		winGamePanel.SetActive(false);
+		EventManager.TriggerEvent("Restart");
 	}
 }

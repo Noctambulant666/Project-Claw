@@ -23,7 +23,7 @@ public class Player : MonoBehaviour {
 		}
 		if ( collision.gameObject.tag == "Check Point" )
 		{
-//			EventManager.TriggerEvent( "Check Point" );
+			EventManager.TriggerEvent( "Check Point" );
 		}
 	}
 	void RestartLevel()
