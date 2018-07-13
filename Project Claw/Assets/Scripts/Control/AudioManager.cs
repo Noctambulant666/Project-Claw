@@ -81,9 +81,9 @@ public class AudioManager : MonoBehaviour {
 		foreach( Sound s in sounds )
 		{
 			if ( s.type == SoundType.Music )
-				s.source.volume = musicVolume;
+				s.source.volume = s.volume*musicVolume;
 			else if ( s.type == SoundType.SoundFX )
-				s.source.volume = fxVolume;
+				s.source.volume = s.volume*fxVolume;
 			s.source.volume *= masterVolume;
 		}
 	}
@@ -98,9 +98,9 @@ public class AudioManager : MonoBehaviour {
 		}
 
 		if ( sound.type == SoundType.Music )
-			sound.source.volume = musicVolume;
+			sound.source.volume = sound.volume*musicVolume;
 		else if ( sound.type == SoundType.SoundFX )
-			sound.source.volume = fxVolume;
+			sound.source.volume = sound.volume*fxVolume;
 			
 		sound.source.volume *= masterVolume;
 		sound.source.Play();
@@ -121,9 +121,13 @@ public class AudioManager : MonoBehaviour {
 			sound.source.Stop();
 
 		if ( sound.type == SoundType.Music )
-			sound.source.volume = musicVolume;
+		{
+			sound.source.volume = sound.volume*musicVolume;
+		}
 		else if ( sound.type == SoundType.SoundFX )
-			sound.source.volume = fxVolume;
+		{
+			sound.source.volume = sound.volume*fxVolume;
+		}
 
 		sound.source.volume *= masterVolume;
 		sound.source.Play();

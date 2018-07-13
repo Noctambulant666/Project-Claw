@@ -10,6 +10,9 @@ public class Controller : MonoBehaviour {
 	[SerializeField] public string nextLevel = "";
 	public int currentCheckPoint = 0;
 
+//	public GameObject cam;
+//	public GameObject cam2;
+
 	void Awake()
 	{
 		if ( instance == null )
@@ -55,9 +58,41 @@ public class Controller : MonoBehaviour {
 	{
 		// Intro sequence
 		EventManager.TriggerEvent("Fade in");
-		yield return new WaitForSeconds( 0.9f );
+		yield return new WaitForSeconds( 0.7f );
+		yield return StartCoroutine( LerpToEndAndBack() );
 		EventManager.TriggerEvent( "Has Control");
 		if ( AudioManager.instance != null ) AudioManager.instance.Play( "Theme", true );
+	}
+	IEnumerator QuickIntro()
+	{
+		// Intro sequence
+		EventManager.TriggerEvent("Fade in");
+		yield return new WaitForSeconds( 0.7f );
+//		yield return StartCoroutine( LerpToEndAndBack() );
+		EventManager.TriggerEvent( "Has Control");
+		if ( AudioManager.instance != null ) AudioManager.instance.Play( "Theme", true );
+	}
+	IEnumerator LerpToEndAndBack()
+	{
+		GameObject cam;
+		cam = Camera.main.gameObject;
+		Vector3 camStart = cam.transform.position;
+//		Vector3 camEnd = cam2.transform.position;
+		Vector3 camEnd = new Vector3( checkPoints[1].transform.position.x, cam.transform.position.y, checkPoints[1].transform.position.z+1);
+//		Vector3 camPos = camStart;
+		float speed = 10f;
+		while ( cam.transform.position != camEnd )
+		{
+			cam.transform.position = Vector3.Lerp( cam.transform.position, camEnd, Time.deltaTime * speed );
+			yield return null;
+		}
+		yield return new WaitForSeconds(0.5f);
+		while ( cam.transform.position != camStart )
+		{
+			cam.transform.position = Vector3.Lerp( cam.transform.position, camStart, Time.deltaTime * speed );
+			yield return null;
+		}
+		yield return null;
 	}
 	void Update()
 	{
@@ -90,7 +125,7 @@ public class Controller : MonoBehaviour {
 			Destroy( GameObject.FindWithTag("Player") );
 			Instantiate( playerPrefab, checkPoints[0].transform.position, checkPoints[0].transform.rotation );
 //			EventManager.TriggerEvent("Has Control");
-			StartCoroutine( Intro() );
+			StartCoroutine( QuickIntro() );
 			if ( AudioManager.instance != null ) AudioManager.instance.Play( "Pit" );
 		}
 	}

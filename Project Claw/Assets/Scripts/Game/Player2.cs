@@ -31,7 +31,8 @@ public class Player2 : MonoBehaviour {
 		}
 	}
 	void Update(){
-		ControlSchemeA();
+//		ControlSchemeA();
+		ControlSchemeB();
 	}
 	void ControlSchemeA()
 	{
@@ -74,10 +75,27 @@ public class Player2 : MonoBehaviour {
 			KeyCode keyLeft = KeyCode.A;
 			KeyCode keyRight = KeyCode.D;
 
-//			if ( keyUp )
-//			{
-//				
-//			}
+			move = Vector3.zero;
+			if ( Input.GetKey(keyUp) )
+			{
+				transform.rotation = Quaternion.Euler( 0, 180, 0 );
+				move = Vector3.forward;
+			}
+			if ( Input.GetKey(keyDown) )
+			{
+				transform.rotation = Quaternion.Euler( 0, 0, 0 );
+				move = Vector3.forward;
+			}
+			if ( Input.GetKey(keyLeft) )
+			{
+				transform.rotation = Quaternion.Euler( 0, 90, 0 );
+				move = Vector3.forward;
+			}
+			if ( Input.GetKey(keyRight) )
+			{
+				transform.rotation = Quaternion.Euler( 0, 270, 0 );
+				move = Vector3.forward;
+			}
 
 			move = transform.TransformDirection( move );
 			move *= moveSpeed;
