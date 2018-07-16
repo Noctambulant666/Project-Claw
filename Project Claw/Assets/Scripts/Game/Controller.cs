@@ -139,7 +139,11 @@ public class Controller : MonoBehaviour {
 	void LevelComplete()
 	{
 		EventManager.TriggerEvent( "Has Control" );
-		if ( nextLevel == "" || nextLevel == null )
+
+        GameStatus.instance.points = points;
+        GameStatus.instance.maxPoints = maxPoints;
+
+        if ( nextLevel == "" || nextLevel == null )
 		{
 			Debug.Log( "Win?");
 			WinGame();

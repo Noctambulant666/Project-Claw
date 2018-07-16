@@ -22,7 +22,6 @@ GameObject:
   - component: {fileID: 33493079599079472}
   - component: {fileID: 23716430167684140}
   - component: {fileID: 136283640244361026}
-  - component: {fileID: 114018957904231734}
   m_Layer: 0
   m_Name: Collectable
   m_TagString: Untagged
@@ -39,6 +38,7 @@ GameObject:
   m_Component:
   - component: {fileID: 4059322945115026}
   - component: {fileID: 136919042101923800}
+  - component: {fileID: 114919140796425548}
   m_Layer: 0
   m_Name: Collectable Coin
   m_TagString: Collectable
@@ -115,12 +115,12 @@ MeshFilter:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1452798826183866}
   m_Mesh: {fileID: 10206, guid: 0000000000000000e000000000000000, type: 0}
---- !u!114 &114018957904231734
+--- !u!114 &114919140796425548
 MonoBehaviour:
   m_ObjectHideFlags: 1
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1452798826183866}
+  m_GameObject: {fileID: 1694148967207914}
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: ea78708d0fe5c1240acbd3ca7af6fb8b, type: 3}

@@ -7,6 +7,7 @@ public class GameStatus : MonoBehaviour {
 	public static GameStatus instance;
 
 	public int points = 0;
+    public int maxPoints = 0;
 	public int checkPoint = 1;
 	public string level = "";
 

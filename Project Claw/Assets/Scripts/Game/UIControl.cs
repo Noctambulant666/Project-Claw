@@ -8,8 +8,10 @@ public class UIControl : MonoBehaviour {
 	public GameObject levelOverPanel;
 	public GameObject winGamePanel;
 	public GameObject optionsPanel;
+    public Text levelOverPointsText;
+    public Text winPointsText;
 
-	void OnEnable()
+    void OnEnable()
 	{
 		if ( GameObject.Find("Event Manager") != null )
 		{
@@ -68,7 +70,8 @@ public class UIControl : MonoBehaviour {
 			return;
 		}
 		levelOverPanel.SetActive(true);
-	}
+        levelOverPointsText.text = "" + GameStatus.instance.points + " / " + GameStatus.instance.maxPoints;
+    }
 	void WinGame()
 	{
 		Debug.Log( "Game over");
@@ -77,7 +80,8 @@ public class UIControl : MonoBehaviour {
 			return;
 		}
 		winGamePanel.SetActive(true);
-	}
+        winPointsText.text = "" + GameStatus.instance.points + " / " + GameStatus.instance.maxPoints;
+    }
 	public void Retry()
 	{
 		levelOverPanel.SetActive(false);
