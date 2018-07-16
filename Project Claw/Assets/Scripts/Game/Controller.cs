@@ -10,8 +10,8 @@ public class Controller : MonoBehaviour {
 	[SerializeField] public string nextLevel = "";
 	public int currentCheckPoint = 0;
 
-//	public GameObject cam;
-//	public GameObject cam2;
+    [SerializeField] private int maxPoints = 0;
+    [SerializeField] private int points = 0;
 
 	void Awake()
 	{
@@ -31,7 +31,8 @@ public class Controller : MonoBehaviour {
 			EventManager.StartListening( "Pit", Restart );
 			EventManager.StartListening( "Restart", Restart );
 			EventManager.StartListening( "Check Point", LevelComplete );
-		}
+            EventManager.StartListening("coinpickup", Coin );
+        }
 	}
 	void OnDisable()
 	{
@@ -40,7 +41,8 @@ public class Controller : MonoBehaviour {
 			EventManager.StopListening( "Pit", Restart );
 			EventManager.StopListening( "Restart", Restart );
 			EventManager.StopListening( "Check Point", LevelComplete );
-		}
+            EventManager.StopListening("coinpickup", Coin);
+        }
 	}
 	void Start()
 	{
@@ -53,6 +55,11 @@ public class Controller : MonoBehaviour {
 			// Intro sequence
 			StartCoroutine( Intro() );
 		}
+
+        foreach ( GameObject g in GameObject.FindGameObjectsWithTag("Collectable") )
+        {
+            maxPoints += 1;
+        }
 	}
 	IEnumerator Intro()
 	{
@@ -153,4 +160,8 @@ public class Controller : MonoBehaviour {
 		}
 		if ( EventManager.Exists ) EventManager.TriggerEvent( "Win Game" );
 	}
+    void Coin()
+    {
+        points++;
+    }
 }

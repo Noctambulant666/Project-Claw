@@ -8,15 +8,17 @@ public class RotatingCollectable : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
-        transform.Rotate(new Vector3(0, 30, 0) * Time.deltaTime * speed);
+        transform.parent.transform.Rotate(new Vector3(0, 30, 0) * Time.deltaTime * speed);
 
     
     }
-
-    private void OnCollisionEnter(Collision collision)
+    private void OnTriggerEnter(Collider other)
     {
-        if (collision.gameObject.tag == "Player") {
+        if ( other.gameObject.tag == "Player")
+        {
             EventManager.TriggerEvent("coinpickup");
+            Debug.Log("coin");
+
         }
     }
 }

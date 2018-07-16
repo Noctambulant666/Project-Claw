@@ -24,9 +24,14 @@ public class Player : MonoBehaviour {
 		if ( collision.gameObject.tag == "Check Point" )
 		{
 			EventManager.TriggerEvent( "Check Point" );
-		}
-	}
-	void RestartLevel()
+        }
+        if (collision.gameObject.tag == "Collectable")
+        {
+            //EventManager.TriggerEvent("coinpickup");
+            //Debug.Log("Coin, boy");
+        }
+    }
+    void RestartLevel()
 	{
 //		transform.position = Controller.instance.checkPoints[Controller.instance.currentCheckPoint].transform.position;
 //		transform.rotation = Controller.instance.checkPoints[Controller.instance.currentCheckPoint].transform.rotation;
