@@ -16,7 +16,7 @@ public class RotatingCollectable : MonoBehaviour {
     private void OnCollisionEnter(Collision collision)
     {
         if (collision.gameObject.tag == "Player") {
-            EventManager.TriggerEvent ("coinpickup")
+            EventManager.TriggerEvent("coinpickup");
         }
     }
 }
