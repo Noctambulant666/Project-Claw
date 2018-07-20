@@ -5,10 +5,10 @@ using UnityEngine;
 //[CharacterController( typeof(CharacterController))]
 public class Player : MonoBehaviour {
 	[SerializeField] private CharacterController controller;
-	[SerializeField] float baseMoveSpeed = 2f;
-    [SerializeField] float mudMoveSpeed = 1f;
-    //[SerializeField] float boostMoveSpeed = 2f;
-	[SerializeField] float jump = 3f;
+	[SerializeField] float moveSpeed = 2.0f;
+    [SerializeField] float mudSpeed = 1.0f;
+    [SerializeField] float boostSpeed = 0.5f;
+    [SerializeField] float jump = 3f;
 	[SerializeField] float gravity = 10f;
 	private Vector3 move;
 	bool hasControl = false;
@@ -39,10 +39,11 @@ public class Player : MonoBehaviour {
 		controller.Move( move * Time.deltaTime);
 		if ( !hasControl ) return; // check if controls are enabled
 
-        float speed = baseMoveSpeed;
+        float currentSpeed = moveSpeed;
 		if ( controller.isGrounded )
 		{
 			move = Vector3.zero;
+            Vector3 boostDir = Vector3.zero;
 
             Vector3 pos = new Vector3(transform.position.x, transform.position.y + 0.1f, transform.position.z);
             Ray ray = new Ray(pos,Vector3.down);
@@ -51,7 +52,15 @@ public class Player : MonoBehaviour {
             {
                 if ( hit.collider.gameObject.tag == "Mud" )
                 {
-                    speed = mudMoveSpeed;
+                    currentSpeed = mudSpeed;
+                }
+                else if ( hit.collider.gameObject.tag == "Boost")
+                {
+                    GameObject boost = hit.collider.gameObject;
+                    boostDir = boost.transform.forward;
+                    boostDir *= boostSpeed;
+                    Debug.Log("Boosting");
+
                 }
             }
 
@@ -82,7 +91,8 @@ public class Player : MonoBehaviour {
 			}
 
 			move = transform.TransformDirection( move );
-			move *= speed;
+            move = move + boostDir;
+			move *= currentSpeed;
 
             if (Input.GetButton("Jump"))
 			{
