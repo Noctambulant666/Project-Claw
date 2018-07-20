@@ -6,8 +6,8 @@ using UnityEngine;
 public class Player : MonoBehaviour {
 	[SerializeField] private CharacterController controller;
 	[SerializeField] float moveSpeed = 2.0f;
-    [SerializeField] float mudSpeed = 1.0f;
-    [SerializeField] float boostSpeed = 0.5f;
+    [SerializeField] float mudCoefficient = 0.5f;
+    [SerializeField] float boostCoefficient = 0.5f;
     [SerializeField] float jump = 3f;
 	[SerializeField] float gravity = 10f;
 	private Vector3 move;
@@ -52,15 +52,14 @@ public class Player : MonoBehaviour {
             {
                 if ( hit.collider.gameObject.tag == "Mud" )
                 {
-                    currentSpeed = mudSpeed;
+                    currentSpeed *= mudCoefficient;
                 }
                 else if ( hit.collider.gameObject.tag == "Boost")
                 {
                     GameObject boost = hit.collider.gameObject;
                     boostDir = boost.transform.forward;
-                    boostDir *= boostSpeed;
-                    Debug.Log("Boosting");
-
+                    boostDir *= boostCoefficient;
+                    //Debug.Log("Boosting!");
                 }
             }
 

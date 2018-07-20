@@ -230,7 +230,7 @@ MonoBehaviour:
   controller: {fileID: 143695493120110998}
   moveSpeed: 2
   mudSpeed: 1
-  boostSpeed: 0.5
+  boostSpeed: 0.75
   jump: 3
   gravity: 10
 --- !u!143 &143695493120110998
