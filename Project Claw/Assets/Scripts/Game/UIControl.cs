@@ -63,7 +63,6 @@ public class UIControl : MonoBehaviour {
 	void LevelComplete()
 	{
 		Debug.Log( "Level over");
-//		NextLevelButton();
 		if ( levelOverPanel == null )
 		{
 			Debug.LogError( "UI Error: Level Over Panel is missing reference");

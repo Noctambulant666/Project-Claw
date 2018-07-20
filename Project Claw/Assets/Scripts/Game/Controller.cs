@@ -7,6 +7,7 @@ public class Controller : MonoBehaviour {
 	[HideInInspector] public static Controller instance;
 	[SerializeField] public GameObject[] checkPoints;
 	[SerializeField] GameObject playerPrefab;
+    GameObject player;
 	[SerializeField] public string nextLevel = "";
 	public int currentCheckPoint = 0;
 
@@ -47,7 +48,9 @@ public class Controller : MonoBehaviour {
 	void Start()
 	{
 		if ( playerPrefab != null )
-			Instantiate( playerPrefab, checkPoints[0].transform.position, checkPoints[0].transform.rotation );
+        {
+			player = Instantiate( playerPrefab, checkPoints[0].transform.position, checkPoints[0].transform.rotation );
+        }
 		GameStatus.instance.level = SceneManager.GetActiveScene().name;
 
 		if ( EventManager.Exists) 
@@ -66,7 +69,7 @@ public class Controller : MonoBehaviour {
 		// Intro sequence
 		EventManager.TriggerEvent("Fade in");
 		yield return new WaitForSeconds( 0.7f );
-		yield return StartCoroutine( LerpToEndAndBack() );
+		yield return StartCoroutine( LerpCameraToEndAndBack() );
 		EventManager.TriggerEvent( "Has Control");
 		if ( AudioManager.instance != null ) AudioManager.instance.Play( "Theme", true );
 	}
@@ -75,18 +78,15 @@ public class Controller : MonoBehaviour {
 		// Intro sequence
 		EventManager.TriggerEvent("Fade in");
 		yield return new WaitForSeconds( 0.7f );
-//		yield return StartCoroutine( LerpToEndAndBack() );
 		EventManager.TriggerEvent( "Has Control");
 		if ( AudioManager.instance != null ) AudioManager.instance.Play( "Theme", true );
 	}
-	IEnumerator LerpToEndAndBack()
+	IEnumerator LerpCameraToEndAndBack()
 	{
 		GameObject cam;
 		cam = Camera.main.gameObject;
 		Vector3 camStart = cam.transform.position;
-//		Vector3 camEnd = cam2.transform.position;
 		Vector3 camEnd = new Vector3( checkPoints[1].transform.position.x, cam.transform.position.y, checkPoints[1].transform.position.z+1);
-//		Vector3 camPos = camStart;
 		float speed = 10f;
 		while ( cam.transform.position != camEnd )
 		{
@@ -129,9 +129,12 @@ public class Controller : MonoBehaviour {
 	{
 		if ( playerPrefab != null )
 		{
-			Destroy( GameObject.FindWithTag("Player") );
-			Instantiate( playerPrefab, checkPoints[0].transform.position, checkPoints[0].transform.rotation );
-//			EventManager.TriggerEvent("Has Control");
+            //Destroy( GameObject.FindWithTag("Player") );
+            //Instantiate( playerPrefab, checkPoints[0].transform.position, checkPoints[0].transform.rotation );
+            EventManager.TriggerEvent("Has Control");
+            player.transform.position = checkPoints[0].transform.position;
+            player.transform.rotation = checkPoints[0].transform.rotation;
+            
 			StartCoroutine( QuickIntro() );
 			if ( AudioManager.instance != null ) AudioManager.instance.Play( "Pit" );
 		}
