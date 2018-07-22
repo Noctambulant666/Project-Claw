@@ -229,10 +229,11 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   controller: {fileID: 143695493120110998}
   moveSpeed: 2
-  mudSpeed: 1
-  boostSpeed: 0.75
+  mudCoefficient: 0.5
+  boostCoefficient: 0.5
   jump: 3
   gravity: 10
+  hasControl: 0
 --- !u!143 &143695493120110998
 CharacterController:
   m_ObjectHideFlags: 1

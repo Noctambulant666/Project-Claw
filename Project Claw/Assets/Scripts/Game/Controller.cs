@@ -4,17 +4,21 @@ using UnityEngine;
 using UnityEngine.SceneManagement;
 
 public class Controller : MonoBehaviour {
-	[HideInInspector] public static Controller instance;
-	[SerializeField] public GameObject[] checkPoints;
-	[SerializeField] GameObject playerPrefab;
-    GameObject player;
-	[SerializeField] public string nextLevel = "";
-	public int currentCheckPoint = 0;
+	[HideInInspector] public static Controller instance; // Following the Unity singleton pattern
 
+    [Header("Object references")]
+    [SerializeField] private GameObject[] checkPoints;
+	[SerializeField] private GameObject playerPrefab;
+	[Tooltip("Enter the scene name of the next level as a string. If left blank, game over screen appears.")]
+    public string nextLevel = "";
+
+    [Header("Points")]
     [SerializeField] private int maxPoints = 0;
     [SerializeField] private int points = 0;
+    private GameObject player;
+    [HideInInspector] public int currentCheckPoint = 0;
 
-	void Awake()
+    void Awake()
 	{
 		if ( instance == null )
 		{
