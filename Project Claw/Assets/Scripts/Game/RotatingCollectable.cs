@@ -13,8 +13,8 @@ public class RotatingCollectable : MonoBehaviour {
     {
         if ( other.gameObject.tag == "Player")
         {
+            gameObject.SetActive(false);
             EventManager.TriggerEvent("coinpickup");
-            Destroy(this.gameObject);
             AudioManager.instance.Play("Collect coin");
         }
     }

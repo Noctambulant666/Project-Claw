@@ -14,7 +14,9 @@ public class Player : MonoBehaviour {
     [SerializeField] private float boostSpeedModifier = 0.5f;
     private Vector3 moveDirection; // Player directional movement vector
     private Vector3 additiveDirection; // Add to directional move vector to find adjusted move vector
-    private bool hasControl = false;
+    [SerializeField] private bool hasControl = false;
+    [SerializeField] private bool isOnPlatform = false;
+    [SerializeField] private MovingPlatform platform;
 
     KeyCode keyUp = KeyCode.W;
     KeyCode keyDown = KeyCode.S;
@@ -89,7 +91,7 @@ public class Player : MonoBehaviour {
                 if (hit.collider.gameObject.tag == "Mud")
                 {
                     // Slow down player by a given factor
-                    additiveDirection = transform.InverseTransformDirection(moveDirection);
+                    additiveDirection = -transform.TransformDirection(moveDirection);
                     additiveDirection *= mudSpeedModifier;
                 }
                 else if (hit.collider.gameObject.tag == "Boost")
@@ -115,9 +117,10 @@ public class Player : MonoBehaviour {
 		{
             // Adjust for gravity
 			moveDirection.y -= gravity * Time.deltaTime;
+            transform.parent = null;
 		}
 	}
-	void OnTriggerEnter( Collider other )
+    void OnTriggerEnter( Collider other )
 	{
 		if ( other.tag == "Pit" )
 		{
@@ -126,9 +129,31 @@ public class Player : MonoBehaviour {
 		if ( other.tag == "Check Point" )
 		{
 			EventManager.TriggerEvent("Check Point");
-		}
-	}
-	void HasControl()
+        }
+        if (other.tag == "Moving Platform")
+        {
+            isOnPlatform = true;
+            if ( other.gameObject.GetComponentInParent<MovingPlatform>() != null )
+                platform = other.gameObject.GetComponentInParent<MovingPlatform>();
+        }
+    }
+    private void LateUpdate()
+    {
+        // If on a moving platform, apply that movement to the player
+        if (isOnPlatform && platform != null)
+        {
+            transform.position += platform.moveResultant;
+        }
+    }
+    private void OnTriggerExit(Collider other)
+    {
+        if ( other.tag == "Moving Platform")
+        {
+            isOnPlatform = false;
+            platform = null;
+        }
+    }
+    void HasControl()
 	{
         // Toggle control
 		hasControl = !hasControl;

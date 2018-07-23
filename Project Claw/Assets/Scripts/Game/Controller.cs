@@ -17,6 +17,7 @@ public class Controller : MonoBehaviour {
     [SerializeField] private int points = 0;
     private GameObject player;
     [HideInInspector] public int currentCheckPoint = 0;
+    private GameObject[] collectables;
 
     void Awake()
 	{
@@ -63,10 +64,8 @@ public class Controller : MonoBehaviour {
 			StartCoroutine( Intro() );
 		}
 
-        foreach ( GameObject g in GameObject.FindGameObjectsWithTag("Collectable") )
-        {
-            maxPoints += 1;
-        }
+        collectables = GameObject.FindGameObjectsWithTag("Collectable");
+        maxPoints = collectables.Length;
 	}
 	IEnumerator Intro()
 	{
@@ -133,14 +132,19 @@ public class Controller : MonoBehaviour {
 	{
 		if ( playerPrefab != null )
 		{
-            //Destroy( GameObject.FindWithTag("Player") );
-            //Instantiate( playerPrefab, checkPoints[0].transform.position, checkPoints[0].transform.rotation );
             EventManager.TriggerEvent("Has Control");
+			if ( AudioManager.instance != null ) AudioManager.instance.Play( "Pit" );
+
             player.transform.position = checkPoints[0].transform.position;
             player.transform.rotation = checkPoints[0].transform.rotation;
+
+            foreach ( GameObject g in collectables )
+            {
+                g.SetActive(true);
+                points = 0;
+            }
             
 			StartCoroutine( QuickIntro() );
-			if ( AudioManager.instance != null ) AudioManager.instance.Play( "Pit" );
 		}
 	}
 	void LevelComplete()

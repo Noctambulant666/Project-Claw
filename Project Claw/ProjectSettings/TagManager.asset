@@ -9,6 +9,7 @@ TagManager:
   - Collectable
   - Mud
   - Boost
+  - Moving Platform
   layers:
   - Default
   - TransparentFX
