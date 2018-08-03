@@ -10,6 +10,7 @@ public class UIControl : MonoBehaviour {
 	public GameObject optionsPanel;
     public Text levelOverPointsText;
     public Text winPointsText;
+    public Text LevelNameText;
 
     void OnEnable()
 	{
@@ -18,6 +19,7 @@ public class UIControl : MonoBehaviour {
 			EventManager.StartListening( "End Level", LevelComplete );
 			EventManager.StartListening( "Win Game", WinGame );
 		}
+        LevelNameText.text = UnityEngine.SceneManagement.SceneManager.GetActiveScene().name;
 	}
 	void OnDisable()
 	{
@@ -31,6 +33,9 @@ public class UIControl : MonoBehaviour {
 	{
 		menu.SetActive( !menu.activeSelf );
 		optionsPanel.SetActive( false );
+
+        GameObject levName = LevelNameText.gameObject;
+        levName.SetActive(!levName.activeSelf);
 	}
 	public void Options()
 	{

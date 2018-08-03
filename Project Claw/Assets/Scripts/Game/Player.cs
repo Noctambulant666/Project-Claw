@@ -11,7 +11,7 @@ public class Player : MonoBehaviour {
     [SerializeField] private float gravity = 10f;
     [Header("Speed Modifiers")]
     [SerializeField] private float mudSpeedModifier = 0.5f;
-    [SerializeField] private float boostSpeedModifier = 0.5f;
+    [SerializeField] private float boostSpeedModifier = 1.0f;
     private Vector3 moveDirection; // Player directional movement vector
     private Vector3 additiveDirection; // Add to directional move vector to find adjusted move vector
     [SerializeField] private bool hasControl = false;
